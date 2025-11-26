@@ -9,6 +9,13 @@ import { initOcppServer } from './ocpp/ocppServer';
 const PORT = Number(process.env.PORT) || 3000;
 
 const app = express();
+
+// Middleware do logowania wszystkich requestów (diagnostyka)
+app.use((req, res, next) => {
+  console.log(`[Express] ${req.method} ${req.path}`);
+  next();
+});
+
 app.use(cors({
   origin: 'http://localhost:3001',
   credentials: true

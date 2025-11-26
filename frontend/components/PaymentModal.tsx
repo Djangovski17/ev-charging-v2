@@ -136,6 +136,7 @@ export default function PaymentModal({
       axios
         .post("http://localhost:3000/create-payment-intent", {
           amount: amount * 100, // Stripe używa groszy
+          stationId: stationId,
         })
         .then((response) => {
           setClientSecret(response.data.clientSecret);
