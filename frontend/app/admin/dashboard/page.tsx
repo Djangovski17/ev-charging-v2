@@ -49,7 +49,7 @@ function AddStationModal({ isOpen, onClose, onSuccess }: AddStationModalProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3000";
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -73,7 +73,7 @@ function AddStationModal({ isOpen, onClose, onSuccess }: AddStationModalProps) {
         payload.id = formData.id.trim();
       }
 
-      await axios.post(`${backendUrl}/admin/stations`, payload);
+      await axios.post(`${API_URL}/admin/stations`, payload);
 
       // Reset form
       setFormData({
@@ -244,7 +244,7 @@ export default function AdminDashboard() {
   const [isLoadingTransactions, setIsLoadingTransactions] = useState(false);
   const [showAddStationModal, setShowAddStationModal] = useState(false);
 
-  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3000";
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
 
   useEffect(() => {
     // Sprawdź autentykację
@@ -271,7 +271,7 @@ export default function AdminDashboard() {
   const fetchStations = async () => {
     setIsLoadingStations(true);
     try {
-      const response = await axios.get(`${backendUrl}/admin/stations`);
+      const response = await axios.get(`${API_URL}/admin/stations`);
       setStations(response.data);
     } catch (error) {
       console.error("Error fetching stations:", error);
@@ -284,7 +284,7 @@ export default function AdminDashboard() {
   const fetchTransactions = async () => {
     setIsLoadingTransactions(true);
     try {
-      const response = await axios.get(`${backendUrl}/admin/transactions`);
+      const response = await axios.get(`${API_URL}/admin/transactions`);
       setTransactions(response.data);
     } catch (error) {
       console.error("Error fetching transactions:", error);

@@ -54,8 +54,8 @@ function HomeContent() {
       const checkStationStatus = async () => {
         setStationStatusLoading(true);
         try {
-          const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3000";
-          const response = await axios.get(`${backendUrl}/station/${stationId}`);
+          const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+          const response = await axios.get(`${API_URL}/station/${stationId}`);
           
           if (response.data.success) {
             const station = response.data.station;
@@ -85,9 +85,9 @@ function HomeContent() {
   // Socket.io connection when entering charging state
   useEffect(() => {
     if (viewState === "charging" && stationId) {
-      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3000";
-      console.log(`[Frontend] Łączenie z Socket.io server: ${backendUrl}, stationId: ${stationId}`);
-      const newSocket = io(backendUrl, {
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+      console.log(`[Frontend] Łączenie z Socket.io server: ${API_URL}, stationId: ${stationId}`);
+      const newSocket = io(API_URL, {
         transports: ["websocket", "polling"],
       });
 
@@ -158,8 +158,8 @@ function HomeContent() {
 
     setIsStopping(true);
     try {
-      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:3000";
-      const response = await axios.get(`${backendUrl}/stop/${stationId}`);
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+      const response = await axios.get(`${API_URL}/stop/${stationId}`);
       
       if (response.data.success) {
         // Rozłącz Socket.io

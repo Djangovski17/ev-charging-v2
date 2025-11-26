@@ -38,6 +38,8 @@ function CheckoutForm({
   const [isProcessing, setIsProcessing] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -67,7 +69,7 @@ function CheckoutForm({
         // Wyślij request do endpointu startu
         try {
           const response = await axios.get(
-            `http://localhost:3000/start/${stationId}`
+            `${API_URL}/start/${stationId}`
           );
           if (response.data.success) {
             onSuccess();
@@ -128,13 +130,15 @@ export default function PaymentModal({
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+
   useEffect(() => {
     if (isOpen && !clientSecret) {
       setIsLoading(true);
       setError(null);
 
       axios
-        .post("http://localhost:3000/create-payment-intent", {
+        .post(`${API_URL}/create-payment-intent`, {
           amount: amount * 100, // Stripe używa groszy
           stationId: stationId,
         })
