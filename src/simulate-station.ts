@@ -1,6 +1,7 @@
 import WebSocket from 'ws';
+const STATION_ID = 'CP_001';
 
-const ws = new WebSocket('ws://localhost:3000/ocpp/CP_001');
+const ws = new WebSocket(`wss://ev-charging-mvp-production.up.railway.app/ocpp/${STATION_ID}`);
 
 let meterValueInterval: NodeJS.Timeout | null = null;
 let currentEnergyWh = 0;
