@@ -259,6 +259,13 @@ export default function AdminDashboard() {
   useEffect(() => {
     if (isAuthenticated && activeTab === "stations") {
       fetchStations();
+      
+      // Odświeżaj status stacji co 3 sekundy dla real-time updates
+      const interval = setInterval(() => {
+        fetchStations();
+      }, 3000);
+      
+      return () => clearInterval(interval);
     }
   }, [isAuthenticated, activeTab]);
 
@@ -361,6 +368,7 @@ export default function AdminDashboard() {
   const getStatusLabel = (status: string) => {
     const statusMap: Record<string, string> = {
       AVAILABLE: "Dostępna",
+      CHARGING: "Zajęta",
       OCCUPIED: "Zajęta",
       UNAVAILABLE: "Niedostępna",
       PENDING: "Oczekuje",
@@ -373,7 +381,7 @@ export default function AdminDashboard() {
   const getStatusColor = (status: string) => {
     if (status === "AVAILABLE") {
       return "bg-green-100 text-green-800";
-    } else if (status === "OCCUPIED" || status === "PENDING") {
+    } else if (status === "CHARGING" || status === "OCCUPIED" || status === "PENDING") {
       return "bg-yellow-100 text-yellow-800";
     } else if (status === "UNAVAILABLE" || status === "FAILED") {
       return "bg-red-100 text-red-800";
